@@ -1,4 +1,5 @@
 CartEngine
+
 A production-ready Django e-commerce backend featuring secure atomic transactions, row-level stock locking, Paystack payment processing, webhook verification, and Sentry error monitoring.
  
 Key Features
