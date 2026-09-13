@@ -5,8 +5,8 @@ A production-ready Django e-commerce backend featuring secure atomic transaction
 Key Features
 
 - Secure User Authentication: Built-in Django authentication supporting user signup, secure sessions, and login-required decorators.
-- Dynamic Shopping Cart: Full cart management allowing users to add products, update quantities dynamically, or remove items seamlessly.
-- Concurrent Stock Management: USes database-level row locking (`select_for_update`) wrapped in atomic transactions (transaction.atomic()`) to prevent race conditions and overselling during high-traffic checkouts.
+- Cart Management: Allow users to add products, update quantities, or remove items.
+- Concurrent Stock Management: Users database-level row locking (`select_for_update`) wrapped in atomic transactions (transaction.atomic()`) to prevent race conditions and overselling during high-traffic checkouts.
 - Paystack Payment Integration: Initializes checkout sessions, verifies transaction statuses, and handles cryptographically signed webhooks (`hmac` + `sha512`) to confirm payments securely.
 - Production Error Tracking: Integrated with Sentry SDK to capture and monitor exceptions in real-time.
 
