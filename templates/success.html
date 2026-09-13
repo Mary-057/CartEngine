@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Receipt #{{ order.id }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <div class="max-w-2xl mx-auto px-4 py-12 sm:py-16">
+        
+        <!-- Success Header Card -->
+        <div class="bg-white shadow-sm ring-1 ring-slate-900/5 rounded-2xl p-6 sm:p-8 mb-6">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="h-12 w-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 font-bold text-xl">
+                    ✓
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">Payment Successful</h1>
+                    <p class="text-sm text-slate-500">Order reference: <span class="font-mono text-slate-700">{{ order.paystack_reference }}</span></p>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-100 pt-6 grid grid-cols-2 gap-4 text-sm">
+                <div>
+                    <span class="block text-slate-400">Date</span>
+                    <span class="font-medium text-slate-700">{{ order.created_at|date:"F j, Y" }}</span>
+                </div>
+                <div>
+                    <span class="block text-slate-400">Status</span>
+                    <span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">Verified Paid</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchased Items Breakdown -->
+        <div class="bg-white shadow-sm ring-1 ring-slate-900/5 rounded-2xl p-6 sm:p-8 mb-6">
+            <h2 class="text-base font-semibold text-slate-900 mb-4">Order Items</h2>
+            
+            <ul class="divide-y divide-slate-100 text-sm">
+                {% for item in receipt_items %}
+                <li class="py-3 flex justify-between items-center">
+                    <div>
+                        <p class="font-medium text-slate-900">{{ item.product.name }}</p>
+                        <p class="text-slate-500 text-xs">Qty: {{ item.quantity }}</p>
+                    </div>
+                    <span class="font-medium text-slate-900">&#8358;{{ item.price_at_purchase }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="border-t border-slate-200 mt-6 pt-4 flex justify-between items-center font-bold text-slate-900">
+                <span>Total Paid</span>
+                <span class="text-lg">&#8358;{{ total_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-4">
+            <a href="/" class="flex-1 text-center rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-all">
+                Return to Store
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - CartEngine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex items-center justify-center min-h-screen">
+    <div class="max-w-md w-full mx-auto px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-sm ring-1 ring-slate-900/5">
+            <h1 class="text-2xl font-bold text-slate-900 mb-6 text-center">Create an Account</h1>
+
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="w-full rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-all mt-4">
+                    Sign Up
+                </button>
+            </form>
+            
+            <p class="text-center text-xs text-slate-500 mt-6">
+                Already have an account? <a href="{% url 'login' %}" class="font-semibold text-slate-900 underline">Log in</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order History - CartEngine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+    
+    <!-- Navigation Header -->
+    <nav class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-sm">
+        <a href="{% url 'product_list' %}" class="font-bold text-lg text-slate-900">CartEngine</a>
+        <div class="flex items-center gap-6">
+            <a href="{% url 'product_list' %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Store</a>
+            <a href="{% url 'order_history' %}" class="text-sm font-medium text-slate-900 underline">Order History</a>
+            <a href="{% url 'cart_detail' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-900 bg-slate-100 px-4 py-2 rounded-xl hover:bg-slate-200 transition-all">
+                🛒 View Cart
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <h1 class="text-2xl font-bold text-slate-900 mb-6">Your Order History</h1>
+
+        {% if orders %}
+            <div class="space-y-6">
+                {% for order in orders %}
+                <div class="bg-white shadow-sm ring-1 ring-slate-900/5 rounded-2xl p-6">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b border-slate-100 pb-4 mb-4 gap-2">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Order #{{ order.id }}</span>
+                            <p class="text-xs text-slate-500 mt-0.5">Ref: {{ order.paystack_reference }}</p>
+                        </div>
+                        <div>
+                            {% if order.status == 'SUCCESS' %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    Successful
+                                </span>
+                            {% elif order.status == 'PENDING' %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                                    Pending
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                                    Failed
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <ul class="divide-y divide-slate-100 text-sm mb-4">
+                        {% for item in order.items.all %}
+                        <li class="py-2.5 flex justify-between items-center">
+                            <span class="text-slate-700">{{ item.product.name }} <span class="text-xs text-slate-400">x{{ item.quantity }}</span></span>
+                            <span class="font-medium text-slate-900">&#8358;{{ item.price_at_purchase|floatformat:2 }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="bg-white p-8 rounded-2xl shadow-sm ring-1 ring-slate-900/5 text-center">
+                <p class="text-slate-500 mb-4">You haven't placed any orders yet.</p>
+                <a href="{% url 'product_list' %}" class="inline-block rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-all shadow-sm">
+                    Start Shopping
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

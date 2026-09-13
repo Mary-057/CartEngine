@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - CartEngine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex items-center justify-center min-h-screen">
+    <div class="max-w-md w-full mx-auto px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-sm ring-1 ring-slate-900/5">
+            <h1 class="text-2xl font-bold text-slate-900 mb-6 text-center">Log in to your account</h1>
+
+            {% if form.errors %}
+            <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg">
+                Your username and password didn't match. Please try again.
+            </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Username</label>
+                    <input type="text" name="username" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Password</label>
+                    <input type="password" name="password" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900">
+                </div>
+                <button type="submit" class="w-full rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-all">
+                    Log In
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

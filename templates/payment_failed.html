@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Failed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex items-center justify-center min-h-screen">
+    <div class="max-w-md mx-auto px-4 text-center bg-white p-8 rounded-2xl shadow-sm ring-1 ring-slate-900/5">
+        <div class="h-12 w-12 rounded-full bg-red-50 flex items-center justify-center text-red-600 font-bold text-xl mx-auto mb-4">
+            ✕
+        </div>
+        <h1 class="text-xl font-bold text-slate-900 mb-2">Payment Failed</h1>
+        <p class="text-sm text-slate-500 mb-6">Your payment could not be verified or was declined by Paystack. No money was successfully charged for a completed order.</p>
+        <a href="/cart/" class="inline-block rounded-lg bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-all">
+            Try Again
+        </a>
+    </div>
+</body>
+</html>

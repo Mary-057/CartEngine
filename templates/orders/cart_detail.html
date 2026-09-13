@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart - CartEngine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+    
+    <!-- Persistent Navigation Header -->
+    <nav class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-sm">
+        <a href="{% url 'product_list' %}" class="font-bold text-lg text-slate-900">CartEngine</a>
+        <div class="flex items-center gap-6">
+            <a href="{% url 'product_list' %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Store</a>
+            <a href="{% url 'order_history' %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Order History</a>
+            <a href="{% url 'cart_detail' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-900 bg-slate-100 px-4 py-2 rounded-xl hover:bg-slate-200 transition-all">
+                🛒 View Cart
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-3xl mx-auto px-4 py-12">
+        <h1 class="text-2xl font-bold text-slate-900 mb-6">Shopping Cart</h1>
+
+        {% if cart_items %}
+            <div class="bg-white shadow-sm ring-1 ring-slate-900/5 rounded-2xl p-6 mb-6">
+                <ul class="divide-y divide-slate-100 text-sm">
+                    {% for item in cart_items %}
+                    <li class="py-4 flex justify-between items-center">
+                        <div>
+                            <p class="font-semibold text-slate-900 text-base">{{ item.product.name }}</p>
+                            
+                            <!-- Quantity and Delete Controls -->
+                            <div class="flex items-center gap-4 mt-2">
+                                <form action="{% url 'cart_detail' %}" method="POST" class="flex items-center gap-2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                                    <label for="qty-{{ item.id }}" class="text-xs font-medium text-slate-500">Qty:</label>
+                                    <input 
+                                        id="qty-{{ item.id }}"
+                                        type="number" 
+                                        name="quantity" 
+                                        value="{{ item.quantity }}" 
+                                        min="1" 
+                                        class="w-20 px-3 py-1.5 text-center text-sm font-medium border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white transition-all shadow-sm"
+                                        onchange="this.form.submit()">
+                                </form>
+
+                                <!-- Delete / Remove Button Form -->
+                                <form action="{% url 'cart_detail' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                                    <input type="hidden" name="action" value="delete">
+                                    <button type="submit" class="text-xs font-semibold text-rose-600 hover:text-rose-800 transition-colors">
+                                        Remove
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <span class="font-bold text-slate-900 text-base">&#8358;{{ item.total_price|floatformat:2 }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <!-- Checkout Button Form & Continue Shopping Option -->
+                <div class="mt-8 border-t border-slate-200 pt-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-slate-500 text-sm font-medium">Total Amount</span>
+                        <span class="text-2xl font-bold text-slate-900">&#8358;{{ cart_total|floatformat:2 }}</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="{% url 'product_list' %}" class="w-full sm:w-auto text-center px-6 py-3.5 text-sm font-semibold text-slate-700 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all">
+                            ← Continue Shopping
+                        </a>
+                        
+                        <form action="{% url 'checkout' %}" method="POST" class="w-full sm:flex-1">
+                            {% csrf_token %}
+                            <button type="submit" class="w-full inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3.5 text-sm font-semibold text-white shadow-md hover:bg-slate-800 transition-all">
+                                Proceed to Secure Checkout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="bg-white p-8 rounded-2xl shadow-sm ring-1 ring-slate-900/5 text-center">
+                <p class="text-slate-500 mb-4">Your cart is currently empty.</p>
+                <a href="{% url 'product_list' %}" class="inline-block rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-all shadow-sm">
+                    Browse Products
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

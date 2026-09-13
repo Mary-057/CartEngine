@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Store - CartEngine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+    
+    <!-- Persistent Navigation Header -->
+    <nav class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-sm">
+        <a href="{% url 'product_list' %}" class="font-bold text-lg text-slate-900">CartEngine</a>
+        <div class="flex items-center gap-6">
+            <a href="{% url 'product_list' %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Store</a>
+            <a href="{% url 'order_history' %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Order History</a>
+            <a href="{% url 'cart_detail' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-900 bg-slate-100 px-4 py-2 rounded-xl hover:bg-slate-200 transition-all">
+                🛒 View Cart
+            </a>
+        </div>
+    </nav>
+
+    <!-- Success Toast Notification Banner -->
+    {% if messages %}
+    <div class="max-w-6xl mx-auto px-4 mt-6">
+        {% for message in messages %}
+        <div class="p-4 text-sm font-medium text-emerald-800 bg-emerald-50 rounded-xl border border-emerald-200 shadow-sm flex justify-between items-center">
+            <span>{{ message }}</span>
+            <a href="{% url 'cart_detail' %}" class="text-xs font-bold underline hover:text-emerald-900">Go to Cart →</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <h1 class="text-3xl font-bold text-slate-900 mb-8">Available Products</h1>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {% for product in products %}
+            <div class="bg-white p-6 rounded-2xl shadow-sm ring-1 ring-slate-900/5 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-lg font-semibold text-slate-900 mb-1">{{ product.name }}</h2>
+                    <p class="text-slate-500 text-sm mb-4">&#8358;{{ product.price }}</p>
+                </div>
+                <p class="text-xs text-slate-400 mb-4">Stock left: {{ product.stock }}</p>
+                
+                <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-all shadow-sm">
+                        Add to Cart
+                    </button>
+                </form>
+            </div>
+            {% empty %}
+            <p class="text-slate-500">No products found in the database yet. Add some via the Django admin!</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
