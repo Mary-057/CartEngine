@@ -76,7 +76,7 @@
                         
                         <form action="{% url 'checkout' %}" method="POST" class="w-full sm:flex-1">
                             {% csrf_token %}
-                            <button type="submit" class="w-full inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3.5 text-sm font-semibold text-white shadow-md hover:bg-slate-800 transition-all">
+                            <button type="submit" class="w-full inline-flex items-center justify-center rounded-xl bg-[#DAA520] px-6 py-3.5 text-sm font-semibold text-slate-900 shadow-md hover:bg-[#B8860B] transition-all">
                                 Proceed to Secure Checkout
                             </button>
                         </form>
@@ -86,7 +86,7 @@
         {% else %}
             <div class="bg-white p-8 rounded-2xl shadow-sm ring-1 ring-slate-900/5 text-center">
                 <p class="text-slate-500 mb-4">Your cart is currently empty.</p>
-                <a href="{% url 'product_list' %}" class="inline-block rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-all shadow-sm">
+                <a href="{% url 'product_list' %}" class="inline-block rounded-xl bg-[#DAA520] px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-[#B8860B] transition-all shadow-sm">
                     Browse Products
                 </a>
             </div>
